@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { v4 as uuid } from "uuid";
 import {
   List as ListIcon,

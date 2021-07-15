@@ -1,40 +1,34 @@
 import React, { ReactNode } from "react";
-
-import clsx from "clsx";
-import { v4 as uuid } from "uuid";
-import { Link } from "react-location";
-
+import { useTheme } from "@material-ui/core/styles";
 import {
-  CssBaseline,
-  makeStyles,
-  useTheme,
-  Drawer,
-  AppBar,
   Toolbar,
   List,
+  Box,
+  CssBaseline,
   Typography,
   Divider,
   IconButton,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Box,
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from "@material-ui/icons";
-import { drawerWidth, navItems } from "./constants";
+import { AppBar, Drawer, DrawerHeader } from "./componenets";
+import { navItems } from "./constants";
+import { Link } from "react-location";
+import { useState } from "react";
 
 interface Props {
   children: ReactNode;
 }
 
-function NavProvider({ children }: Props) {
-  const styles = useStyles();
+const NavProvider = ({ children }: Props) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -45,63 +39,55 @@ function NavProvider({ children }: Props) {
   };
 
   return (
-    <div className={styles.root}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(styles.appBar, {
-          [styles.appBarShift]: open,
-        })}
-      >
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(styles.menuButton, open && styles.hide)}
+            sx={{
+              marginRight: "36px",
+              ...(open && { display: "none" }),
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            React location
+          <Typography variant="h6" noWrap component="div">
+            React location testing
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={styles.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: styles.drawerPaper,
-        }}
-      >
-        <Box className={styles.drawerHeader}>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
+            {theme.direction === "rtl" ? (
               <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
             )}
           </IconButton>
-        </Box>
+        </DrawerHeader>
         <Divider />
         <List>
-          {navItems[0].map(({ uuid, name, icon, url }) => (
-            <Link key={uuid} to={url} className={styles.link}>
-              <ListItem button>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={name} />
-              </ListItem>
-            </Link>
-          ))}
+          {navItems[0].map(({ uuid, name, url, icon }, index) => {
+            return (
+              <Link to={url}>
+                <ListItem button key={uuid}>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItem>
+              </Link>
+            );
+          })}
         </List>
         <Divider />
         <List>
-          {navItems[1].map(({ uuid, name, icon, url }) => (
-            <Link key={uuid} to={url} className={styles.link}>
-              <ListItem button>
+          {navItems[1].map(({ uuid, name, url, icon }, index) => (
+            <Link to={url}>
+              <ListItem button key={uuid}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={name} />
               </ListItem>
@@ -109,77 +95,11 @@ function NavProvider({ children }: Props) {
           ))}
         </List>
       </Drawer>
-      <main
-        className={clsx(styles.content, {
-          [styles.contentShift]: open,
-        })}
-      >
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {children}
-      </main>
-    </div>
+      </Box>
+    </Box>
   );
-}
+};
 
 export default NavProvider;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: "none",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-    paddingTop: theme.spacing(12),
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-  link: {
-    textDecoration: "none",
-    color: "#000",
-  },
-}));

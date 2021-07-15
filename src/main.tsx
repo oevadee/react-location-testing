@@ -1,13 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import "./index.scss";
-import App from "./App";
-import { ReactLocation } from "react-location";
+import { render } from "react-dom";
 
-ReactDOM.render(
+import "./index.scss";
+
+import { ReactLocation } from "react-location";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+
+import App from "./App";
+import { theme } from "./theme";
+
+render(
   <React.StrictMode>
     <ReactLocation>
-      <App />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
     </ReactLocation>
   </React.StrictMode>,
   document.getElementById("root")

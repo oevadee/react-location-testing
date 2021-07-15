@@ -6,10 +6,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.1",
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "@material-ui/core": "^5.0.0-beta.1",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-hook-form": "^7.11.0",
     "react-location": "^3.0.0",
     "sass": "^1.35.2",
     "uuid": "^8.3.2"
