@@ -2,17 +2,17 @@
 
 ## Frontend
 
-## Running the app
+### Running the app
 
 ```bash
 # development
 $ yarn start
 
-# production mode
-$ npm run start:prod
-
 # build preview
 $ yarn serve
+
+# build
+$ yarn build
 ```
 
 ## example .env
