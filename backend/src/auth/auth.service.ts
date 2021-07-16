@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { users } from 'src/data/users';
-import { loginAuthDto, registerAuthDto } from './dto';
+import { LoginAuthDto, RegisterAuthDto } from './dto';
 import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AuthService {
   users = users;
 
-  login(data: loginAuthDto) {
+  login(data: LoginAuthDto) {
     const { username, password } = data;
     console.log(this.users);
     console.log(username);
@@ -19,8 +19,8 @@ export class AuthService {
     return user;
   }
 
-  register(data: registerAuthDto) {
-    const { username, password, confirmPassword } = data;
+  register(data: RegisterAuthDto) {
+    const { username, password } = data;
     if (this.users.find((user) => user.username === username))
       return 'User already exists';
     const id = uuid();
@@ -29,7 +29,7 @@ export class AuthService {
       username,
       password,
     };
-    this.users = [...this.users, newUser];
-    return newUser;
+    this.users.push(newUser);
+    return this.users;
   }
 }

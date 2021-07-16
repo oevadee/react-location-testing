@@ -3,9 +3,15 @@
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/react-navigation"
+  url      = "postgresql://postgres:postgres@localhost:5432/react-location"
 }
 
 generator client {
   provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  username String  @unique
+  password String 
 }

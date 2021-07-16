@@ -10,7 +10,7 @@ export class AuthUserDto {
   password: string;
 }
 
-export class loginAuthDto {
+export class LoginAuthDto {
   @IsString()
   @IsNotEmpty()
   username: string;
@@ -20,7 +20,7 @@ export class loginAuthDto {
   password: string;
 }
 
-export class registerAuthDto {
+export class RegisterAuthDto {
   @IsString()
   @IsNotEmpty()
   username: string;
@@ -28,8 +28,4 @@ export class registerAuthDto {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  confirmPassword: string;
 }
