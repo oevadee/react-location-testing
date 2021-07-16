@@ -9,6 +9,9 @@ export class AuthService {
 
   login(data: loginAuthDto) {
     const { username, password } = data;
+    console.log(this.users);
+    console.log(username);
+    console.log(password);
     const user = this.users.find(
       (user) => user.username === username && user.password === password,
     );

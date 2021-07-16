@@ -1,17 +1,14 @@
 import React from 'react';
+
 import { Navigate, Route, Routes } from 'react-location';
-import {
-  Todo,
-  About,
-  Profile,
-  Logout,
-  NotFound,
-  Login,
-  Register,
-} from './routes';
+
+import { Todo, About, Profile, Logout, NotFound } from './routes';
+import { Login, Register } from './routes/Auth';
+import { User } from './api/auth/types';
+import { useApp as useAppContext } from './context/appContext';
 
 const AllRoutes = () => {
-  const user = false;
+  const { user } = useAppContext();
   return (
     <Routes>
       {!user ? (
@@ -22,6 +19,7 @@ const AllRoutes = () => {
         </>
       ) : (
         <>
+          <Route path="*" element={<Navigate to="todo" />} />
           <Route path="todo" element={<Todo />} />
           <Route path="about" element={<About />} />
           <Route path="profile" element={<Profile />} />

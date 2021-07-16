@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import App from './App';
 import { theme } from './theme';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import AppContext from './context/appContext';
 
 const queryClient = new QueryClient();
 
@@ -17,8 +18,10 @@ render(
     <QueryClientProvider client={queryClient}>
       <ReactLocation>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
+          <AppContext>
+            <CssBaseline />
+            <App />
+          </AppContext>
         </ThemeProvider>
       </ReactLocation>
     </QueryClientProvider>

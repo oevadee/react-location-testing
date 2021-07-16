@@ -1,51 +1,42 @@
+import { TextField, Typography, Box, Button } from '@material-ui/core';
 import React from 'react';
-
-import {
-  TextField,
-  Typography,
-  Box,
-  Button,
-  LinearProgress,
-} from '@material-ui/core';
 import { useForm } from 'react-hook-form';
+import { Container, CenterContainer } from '../../components/UI';
 import { useNavigate } from 'react-location';
-
-import { Container, CenterContainer } from '../components/UI';
+import { CreateUser, ResponseData } from './types';
+import { useApp as useAppContext } from '../../context/appContext';
 import { useMutation } from 'react-query';
-import { login } from '../api/auth';
-import { User } from '../api/auth/types';
+import { register as registerUser } from '../../api/auth';
 
-const Login = () => {
-  const { register, handleSubmit } = useForm();
+const Register = () => {
+  const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
-  const { mutate, isLoading } = useMutation(login, {
-    onSuccess: (data) => {
-      console.log(data);
+  const { setUser } = useAppContext();
+  const { mutate, isLoading } = useMutation(registerUser, {
+    onSuccess: (data: ResponseData) => {
+      if (data.id) {
+        setUser(data);
+      }
     },
     onError: (err) => console.error(err),
     onSettled: () => {},
   });
 
-  const onSubmit = (values: User) => {
+  const onSubmit = (values: CreateUser) => {
     const user = {
       username: values.username,
       password: values.password,
+      confirmPasswrod: values.confirmPassword,
     };
     if (user) {
       mutate(user);
     }
+    reset();
   };
-
-  if (isLoading)
-    return (
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress />
-      </Box>
-    );
 
   return (
     <Container>
-      <Typography variant="h4">Login</Typography>
+      <Typography variant="h4">Register</Typography>
       <CenterContainer height="calc(100% - 10px)">
         <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
           <Box
@@ -67,21 +58,26 @@ const Login = () => {
               label="Password"
               style={styles.input}
             />
+            <TextField
+              {...register('confirmPassword')}
+              variant="outlined"
+              label="Confirm Password"
+              style={styles.input}
+            />
             <Box style={styles.buttonWrapper}>
               <Button
                 size="large"
                 variant="contained"
-                onClick={() => navigate('/login')}
-                type="submit"
+                onClick={() => navigate('/register')}
               >
-                Login
+                Register
               </Button>
               <Button
                 size="large"
                 variant="outlined"
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/login')}
               >
-                Register
+                Login
               </Button>
             </Box>
           </Box>
@@ -91,7 +87,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
 
 const styles = {
   form: { width: '100%', display: 'grid', placeItems: 'center' },

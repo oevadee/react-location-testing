@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { useTheme } from "@material-ui/core/styles";
+import React, { ReactNode } from 'react';
+import { useTheme } from '@material-ui/core/styles';
 import {
   Toolbar,
   List,
@@ -11,16 +11,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-} from "@material-ui/icons";
-import { AppBar, Drawer, DrawerHeader } from "./componenets";
-import { navItems } from "./constants";
-import { Link } from "react-location";
-import { useState } from "react";
+} from '@material-ui/icons';
+import { AppBar, Drawer, DrawerHeader } from './componenets';
+import { navItems } from './constants';
+import { Link } from 'react-location';
+import { useState } from 'react';
+import { useApp as useAppContext } from '../../context/appContext';
 
 interface Props {
   children: ReactNode;
@@ -29,6 +30,7 @@ interface Props {
 const NavProvider = ({ children }: Props) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const { user } = useAppContext();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -38,8 +40,10 @@ const NavProvider = ({ children }: Props) => {
     setOpen(false);
   };
 
+  if (!user) return <>{children}</>;
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -49,8 +53,8 @@ const NavProvider = ({ children }: Props) => {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
+              marginRight: '36px',
+              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
@@ -63,7 +67,7 @@ const NavProvider = ({ children }: Props) => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
+            {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
               <ChevronLeftIcon />
@@ -74,8 +78,8 @@ const NavProvider = ({ children }: Props) => {
         <List>
           {navItems[0].map(({ uuid, name, url, icon }, index) => {
             return (
-              <Link to={url}>
-                <ListItem button key={uuid}>
+              <Link to={url} key={uuid}>
+                <ListItem button>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={name} />
                 </ListItem>
@@ -86,8 +90,8 @@ const NavProvider = ({ children }: Props) => {
         <Divider />
         <List>
           {navItems[1].map(({ uuid, name, url, icon }, index) => (
-            <Link to={url}>
-              <ListItem button key={uuid}>
+            <Link to={url} key={uuid}>
+              <ListItem button>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={name} />
               </ListItem>
