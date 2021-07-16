@@ -1,10 +1,15 @@
-import { Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { users } from 'src/data/users';
 
 @Injectable()
 export class UsersService {
-  users = [];
+  users = users;
 
-  getOne() {
+  getOne(id: string) {
+    return this.users.find((el) => el.id === id);
+  }
+
+  getMany() {
     return this.users;
   }
 }

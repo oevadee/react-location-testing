@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-location";
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-location';
 import {
   Todo,
   About,
@@ -8,7 +8,7 @@ import {
   NotFound,
   Login,
   Register,
-} from "./routes";
+} from './routes';
 
 const AllRoutes = () => {
   const user = false;

@@ -1,17 +1,45 @@
-import { TextField, Typography, Box, Button } from "@material-ui/core";
-import React from "react";
-import { useForm } from "react-hook-form";
-import Container from "../components/UI/Container";
-import CenterContainer from "../components/UI/CenterContainer";
-import { useNavigate } from "react-location";
+import React from 'react';
+
+import {
+  TextField,
+  Typography,
+  Box,
+  Button,
+  LinearProgress,
+} from '@material-ui/core';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-location';
+
+import { Container, CenterContainer } from '../components/UI';
+import { useMutation } from 'react-query';
+import { login } from '../api/auth';
+import { User } from '../api/auth/types';
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const { mutate, isLoading } = useMutation(login, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (err) => console.error(err),
+    onSettled: () => {},
+  });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = (values: User) => {
+    const user = {
+      username: values.username,
+      password: values.password,
+    };
+    mutate(user);
   };
+
+  if (isLoading)
+    return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress />
+      </Box>
+    );
 
   return (
     <Container>
@@ -20,19 +48,19 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "50%",
+              display: 'flex',
+              flexDirection: 'column',
+              width: '50%',
             }}
           >
             <TextField
-              {...register("username")}
+              {...register('username')}
               variant="outlined"
               label="Username"
               style={styles.input}
             />
             <TextField
-              {...register("password")}
+              {...register('password')}
               variant="outlined"
               label="Password"
               style={styles.input}
@@ -41,14 +69,15 @@ const Login = () => {
               <Button
                 size="large"
                 variant="contained"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate('/login')}
+                type="submit"
               >
                 Login
               </Button>
               <Button
                 size="large"
                 variant="outlined"
-                onClick={() => navigate("/register")}
+                onClick={() => navigate('/register')}
               >
                 Register
               </Button>
@@ -63,11 +92,11 @@ const Login = () => {
 export default Login;
 
 const styles = {
-  form: { width: "100%", display: "grid", placeItems: "center" },
+  form: { width: '100%', display: 'grid', placeItems: 'center' },
   input: { marginBottom: 20 },
   buttonWrapper: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 };
