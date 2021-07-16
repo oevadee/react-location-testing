@@ -31,7 +31,9 @@ const Login = () => {
       username: values.username,
       password: values.password,
     };
-    mutate(user);
+    if (user) {
+      mutate(user);
+    }
   };
 
   if (isLoading)
