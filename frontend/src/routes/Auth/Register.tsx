@@ -1,13 +1,14 @@
-import { TextField, Typography, Box, Button } from '@material-ui/core';
 import React from 'react';
+
+import { TextField, Typography, Box, Button } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { Container, CenterContainer } from '../../components/UI';
 import { useNavigate } from 'react-location';
+import { useMutation, useQueryClient } from 'react-query';
+
+import { Container, CenterContainer } from '../../components/UI';
 import { CreateUser, ResponseData } from './types';
 import { useApp as useAppContext } from '../../context/appContext';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { register as registerUser } from '../../api/auth';
-import { getAll } from '../../api/users';
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -16,7 +17,6 @@ const Register = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(registerUser, {
     onSuccess: (data: ResponseData) => {
-      console.log(data);
       if (data.id) {
         setUser(data);
       }

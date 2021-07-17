@@ -1,6 +1,6 @@
-import React from "react";
-import { Box } from "@material-ui/core";
-import { ReactNode } from "react";
+import React from 'react';
+import { Box } from '@material-ui/core';
+import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;

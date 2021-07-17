@@ -19,7 +19,7 @@ import {
 } from '@material-ui/icons';
 import { AppBar, Drawer, DrawerHeader } from './componenets';
 import { navItems } from './constants';
-import { Link } from 'react-location';
+import { Link, useNavigate } from 'react-location';
 import { useState } from 'react';
 import { useApp as useAppContext } from '../../context/appContext';
 
@@ -78,7 +78,7 @@ const NavProvider = ({ children }: Props) => {
         <List>
           {navItems[0].map(({ uuid, name, url, icon }, index) => {
             return (
-              <Link to={url} key={uuid}>
+              <Link to={url} key={uuid} style={styles.link}>
                 <ListItem button>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={name} />
@@ -90,7 +90,7 @@ const NavProvider = ({ children }: Props) => {
         <Divider />
         <List>
           {navItems[1].map(({ uuid, name, url, icon }, index) => (
-            <Link to={url} key={uuid}>
+            <Link to={url} key={uuid} style={styles.link}>
               <ListItem button>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={name} />
@@ -99,7 +99,10 @@ const NavProvider = ({ children }: Props) => {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{ height: '100vh', flexGrow: 1, flex: 1, p: 3, pt: 12 }}
+      >
         {children}
       </Box>
     </Box>
@@ -107,3 +110,10 @@ const NavProvider = ({ children }: Props) => {
 };
 
 export default NavProvider;
+
+const styles = {
+  link: {
+    textDecoration: 'none',
+    color: 'white',
+  },
+};

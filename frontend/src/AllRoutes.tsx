@@ -4,11 +4,11 @@ import { Navigate, Route, Routes } from 'react-location';
 
 import { Todo, About, Profile, Logout, NotFound } from './routes';
 import { Login, Register } from './routes/Auth';
-import { User } from './api/auth/types';
 import { useApp as useAppContext } from './context/appContext';
 
 const AllRoutes = () => {
   const { user } = useAppContext();
+
   return (
     <Routes>
       {!user ? (
