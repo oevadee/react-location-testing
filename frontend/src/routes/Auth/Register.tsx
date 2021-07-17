@@ -5,31 +5,37 @@ import { Container, CenterContainer } from '../../components/UI';
 import { useNavigate } from 'react-location';
 import { CreateUser, ResponseData } from './types';
 import { useApp as useAppContext } from '../../context/appContext';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { register as registerUser } from '../../api/auth';
+import { getAll } from '../../api/users';
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const { setUser } = useAppContext();
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(registerUser, {
     onSuccess: (data: ResponseData) => {
+      console.log(data);
       if (data.id) {
         setUser(data);
       }
     },
     onError: (err) => console.error(err),
-    onSettled: () => {},
+    onSettled: () => {
+      queryClient.invalidateQueries('users');
+    },
   });
 
   const onSubmit = (values: CreateUser) => {
-    const user = {
-      username: values.username,
-      password: values.password,
-      confirmPasswrod: values.confirmPassword,
-    };
-    if (user) {
-      mutate(user);
+    if (values.password === values.confirmPassword) {
+      const user = {
+        username: values.username,
+        password: values.password,
+      };
+      if (user) {
+        mutate(user);
+      }
     }
     reset();
   };
@@ -65,11 +71,7 @@ const Register = () => {
               style={styles.input}
             />
             <Box style={styles.buttonWrapper}>
-              <Button
-                size="large"
-                variant="contained"
-                onClick={() => navigate('/register')}
-              >
+              <Button size="large" variant="contained" type="submit">
                 Register
               </Button>
               <Button

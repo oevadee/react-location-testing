@@ -12,7 +12,6 @@ const App = () => {
         <NavProvider>
           <AllRoutes />
         </NavProvider>
-        <AllRoutes />
       </AppContext>
     </Box>
   );

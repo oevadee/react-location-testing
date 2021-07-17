@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import './index.scss';
 
 import { ReactLocation } from 'react-location';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import App from './App';
@@ -21,6 +22,7 @@ render(
           <AppContext>
             <CssBaseline />
             <App />
+            <ReactQueryDevtools initialIsOpen={false} />
           </AppContext>
         </ThemeProvider>
       </ReactLocation>

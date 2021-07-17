@@ -1,18 +1,18 @@
-import React from "react";
-import { Box } from "@material-ui/core";
-import { ReactNode } from "react";
+import React from 'react';
+import { Box } from '@material-ui/core';
+import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
   height?: string | number | undefined;
 }
 
-const CenterContainer = ({ children, height = "100%" }: Props) => {
+const CenterContainer = ({ children, height = '100%' }: Props) => {
   return (
     <Box
       width="100%"
       height={height}
-      padding={4}
+      padding={8}
       display="flex"
       alignItems="center"
       flexDirection="column"

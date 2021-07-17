@@ -6,19 +6,15 @@ export const login = async ({ username, password }: User) => {
     username,
     password,
   };
-  const { data } = await axios.post('/api/auth', user);
+  const { data } = await axios.post('/api/auth/login', user);
   return data;
 };
 
-export const register = async ({
-  username,
-  password,
-  confirmPassword,
-}: CreateUser) => {
+export const register = async ({ username, password }: CreateUser) => {
   const user = {
     username,
     password,
   };
-  const { data } = await axios.post('/api/auth', user);
+  const { data } = await axios.post('/api/auth/register', user);
   return data;
 };

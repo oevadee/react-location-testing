@@ -11,12 +11,11 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-location';
 
 import { Container, CenterContainer } from '../../components/UI';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { login } from '../../api/auth';
 import { User } from '../../api/auth/types';
 import { useApp as useAppContext } from '../../context/appContext';
 import { ResponseData } from './types';
-import { getAll } from '../../api/users';
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -31,7 +30,6 @@ const Login = () => {
     onError: (err) => console.error(err),
     onSettled: () => {},
   });
-  const { data } = useQuery('users', async () => await getAll());
 
   const onSubmit = (values: User) => {
     try {
@@ -81,12 +79,7 @@ const Login = () => {
               style={styles.input}
             />
             <Box style={styles.buttonWrapper}>
-              <Button
-                size="large"
-                variant="contained"
-                onClick={() => navigate('/login')}
-                type="submit"
-              >
+              <Button size="large" variant="contained" type="submit">
                 Login
               </Button>
               <Button
