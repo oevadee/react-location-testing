@@ -1,5 +1,5 @@
 export interface ResponseData {
-  userId: string;
+  userId: number;
   token: string;
 }
 

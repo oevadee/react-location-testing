@@ -11,19 +11,22 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-location';
 
 import { Container, CenterContainer } from '../../components/UI';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { User } from '../../api/auth/types';
 import { useApp as useAppContext } from '../../context/appContext';
 import { ResponseData } from './types';
-import { login } from '../../api/auth/index';
+import { login, autoLogin } from '../../api/auth/index';
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const { setUser } = useAppContext();
+
+  const autoLoginQUery = useQuery('autoLogin', () => autoLogin, {
+    onSuccess: (data) => setUser(data),
+  });
   const { mutate, isLoading } = useMutation(login, {
     onSuccess: async (data: ResponseData) => {
-      console.log(data);
       if (data) {
         const { token, userId } = data;
         await localStorage.setItem('token', token);
