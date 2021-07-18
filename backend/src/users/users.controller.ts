@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from '../../dist/users/types';
+import { User } from '@prisma/client';
 
 @Controller('api/users')
 export class UsersController {

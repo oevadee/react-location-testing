@@ -3,6 +3,7 @@ import { IsInt, IsString, IsOptional, IsNotEmpty } from 'class-validator';
 export class GetUserDto {
   @IsOptional()
   @IsInt()
+  readonly username?: string;
   readonly id?: number;
 }
 
