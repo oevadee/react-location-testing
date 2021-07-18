@@ -6,11 +6,9 @@ import { User } from '@prisma/client';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get(':id')
-  async getOne(
-    @Param('userId', new ParseIntPipe()) userId: number,
-  ): Promise<User> {
-    return await this.usersService.getOne({ id: userId });
+  @Get(':username')
+  async getOne(@Param('username') username: string): Promise<User> {
+    return await this.usersService.getOne({ username });
   }
 
   @Get()

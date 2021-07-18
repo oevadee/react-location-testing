@@ -1,10 +1,9 @@
-import { IsInt, IsString, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 
 export class GetUserDto {
   @IsOptional()
-  @IsInt()
+  @IsString()
   readonly username?: string;
-  readonly id?: number;
 }
 
 export class CreateUserDto {

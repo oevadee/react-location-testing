@@ -10,8 +10,8 @@ import React, {
 import { User } from '../api/auth/types';
 
 export interface AppStore {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
+  user: number | null;
+  setUser: Dispatch<SetStateAction<number | null>>;
 }
 
 export const AppContext = createContext<AppStore | null>(null);
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const App = ({ children }: Props) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<number | null>(null);
 
   const appStore = useMemo<AppStore>(
     () => ({

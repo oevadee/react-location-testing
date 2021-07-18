@@ -12,19 +12,22 @@ import { useNavigate } from 'react-location';
 
 import { Container, CenterContainer } from '../../components/UI';
 import { useMutation } from 'react-query';
-import { login } from '../../api/auth';
 import { User } from '../../api/auth/types';
 import { useApp as useAppContext } from '../../context/appContext';
 import { ResponseData } from './types';
+import { login } from '../../api/auth/index';
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const { setUser } = useAppContext();
   const { mutate, isLoading } = useMutation(login, {
-    onSuccess: (data: ResponseData) => {
-      if (data.id) {
-        setUser(data);
+    onSuccess: async (data: ResponseData) => {
+      console.log(data);
+      if (data) {
+        const { token, userId } = data;
+        await localStorage.setItem('token', token);
+        setUser(userId);
       }
     },
     onError: (err) => console.error(err),
@@ -33,12 +36,12 @@ const Login = () => {
 
   const onSubmit = (values: User) => {
     try {
-      const user = {
+      const data = {
         username: values.username,
         password: values.password,
       };
-      if (user) {
-        mutate(user);
+      if (data) {
+        mutate(data);
       }
     } catch (err) {
       console.error(err);

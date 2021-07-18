@@ -1,7 +1,6 @@
 export interface ResponseData {
-  id: string;
-  username: string;
-  password: string;
+  userId: string;
+  token: string;
 }
 
 export interface CreateUser {
