@@ -22,7 +22,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useAppContext();
 
-  const autoLoginQUery = useQuery('autoLogin', () => autoLogin, {
+  useQuery('autoLogin', () => autoLogin, {
     onSuccess: (data) => setUser(data),
   });
   const { mutate, isLoading } = useMutation(login, {

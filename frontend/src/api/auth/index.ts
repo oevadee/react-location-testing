@@ -23,7 +23,7 @@ export const register = async ({ username, password }: CreateUser) => {
 export const autoLogin = () => {
   const token = localStorage.getItem('token');
   if (token) {
-    const { sub } = jwt_decode(token);
+    const { sub } = jwt_decode<{ sub: number }>(token);
     return sub;
   }
 };

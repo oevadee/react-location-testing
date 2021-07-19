@@ -13,13 +13,13 @@ const AllRoutes = () => {
     <Routes>
       {!user ? (
         <>
-          <Route path="*" element={<Navigate to="login" />} />
+          <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </>
       ) : (
         <>
-          <Route path="*" element={<Navigate to="todo" />} />
+          <Route path="*" element={<Todo />} />
           <Route path="todo" element={<Todo />} />
           <Route path="about" element={<About />} />
           <Route path="profile" element={<Profile />} />
