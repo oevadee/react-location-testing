@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import {
-  List as ListIcon,
+  QuestionAnswer as QuestionAnswerIcon,
   Note as NoteIcon,
   Person as PersonIcon,
   ExitToApp as ExitToAppIcon,
@@ -13,9 +13,9 @@ export const navItems = [
   [
     {
       uuid: uuid(),
-      name: 'Todos',
-      url: 'todo',
-      icon: <ListIcon />,
+      name: 'Guesser',
+      url: '',
+      icon: <QuestionAnswerIcon />,
     },
     {
       uuid: uuid(),

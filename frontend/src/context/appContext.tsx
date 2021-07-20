@@ -9,9 +9,19 @@ import React, {
 } from 'react';
 import { User } from '../api/auth/types';
 
+export interface Lyric {
+  imagePath: string;
+  name: string;
+  quote: string;
+  song: string;
+  album: string;
+}
+
 export interface AppStore {
   user: number | null;
   setUser: Dispatch<SetStateAction<number | null>>;
+  lyric: Lyric | null;
+  setLyric: Dispatch<SetStateAction<Lyric | null>>;
 }
 
 export const AppContext = createContext<AppStore | null>(null);
@@ -24,13 +34,16 @@ interface Props {
 
 const App = ({ children }: Props) => {
   const [user, setUser] = useState<number | null>(null);
+  const [lyric, setLyric] = useState<Lyric | null>(null);
 
   const appStore = useMemo<AppStore>(
     () => ({
       user,
       setUser,
+      lyric,
+      setLyric,
     }),
-    [user, setUser],
+    [user, setUser, lyric, setLyric],
   );
 
   return <AppContext.Provider value={appStore}>{children}</AppContext.Provider>;

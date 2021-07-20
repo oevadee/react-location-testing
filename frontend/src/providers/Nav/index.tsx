@@ -40,6 +40,8 @@ const NavProvider = ({ children }: Props) => {
     setOpen(false);
   };
 
+  const handleLogout = () => localStorage.removeItem('token');
+
   if (!user) return <>{children}</>;
 
   return (
@@ -90,12 +92,21 @@ const NavProvider = ({ children }: Props) => {
         <Divider />
         <List>
           {navItems[1].map(({ uuid, name, url, icon }, index) => (
-            <Link to={url} key={uuid} style={styles.link}>
-              <ListItem button>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={name} />
-              </ListItem>
-            </Link>
+            <>
+              {url === 'logout' ? (
+                <ListItem button onClick={handleLogout}>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItem>
+              ) : (
+                <Link to={url} key={uuid} style={styles.link}>
+                  <ListItem button>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText primary={name} />
+                  </ListItem>
+                </Link>
+              )}
+            </>
           ))}
         </List>
       </Drawer>

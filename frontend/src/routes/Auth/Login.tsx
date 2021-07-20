@@ -23,7 +23,11 @@ const Login = () => {
   const { setUser } = useAppContext();
 
   useQuery('autoLogin', () => autoLogin, {
-    onSuccess: (data) => setUser(data),
+    onSuccess: (data) => {
+      if (data) {
+        setUser(data);
+      }
+    },
   });
   const { mutate, isLoading } = useMutation(login, {
     onSuccess: async (data: ResponseData) => {
