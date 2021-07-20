@@ -4,7 +4,6 @@ import AllRoutes from './AllRoutes';
 import NavProvider from './providers/Nav';
 import { Box } from '@material-ui/core';
 import AppContext from './context/appContext';
-import { useNavigate } from 'react-location';
 
 const App = () => {
   return (

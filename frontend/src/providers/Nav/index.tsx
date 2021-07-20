@@ -19,7 +19,7 @@ import {
 } from '@material-ui/icons';
 import { AppBar, Drawer, DrawerHeader } from './componenets';
 import { navItems } from './constants';
-import { Link, useNavigate } from 'react-location';
+import { Link } from 'react-location';
 import { useState } from 'react';
 import { useApp as useAppContext } from '../../context/appContext';
 
@@ -30,7 +30,7 @@ interface Props {
 const NavProvider = ({ children }: Props) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const { user } = useAppContext();
+  const { user, setUser } = useAppContext();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -40,7 +40,10 @@ const NavProvider = ({ children }: Props) => {
     setOpen(false);
   };
 
-  const handleLogout = () => localStorage.removeItem('token');
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
 
   if (!user) return <>{children}</>;
 

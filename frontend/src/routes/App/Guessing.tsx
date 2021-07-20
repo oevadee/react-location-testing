@@ -8,6 +8,7 @@ import { useApp as useAppContext } from '../../context/appContext';
 import { getRandom, RandomLyric } from '../../api/lyrics';
 
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -20,10 +21,13 @@ import {
 } from '@material-ui/core';
 import { CenterContainer } from '../../components/UI';
 import { generateRandomLyric } from '../../utils';
+import { useNavigate } from 'react-location';
 
 const Guessing = () => {
   const { lyric, setLyric } = useAppContext();
-  const { register, handleSubmit } = useForm();
+  const [alert, setAlert] = useState(false);
+  const navigate = useNavigate();
+  const { register, handleSubmit, reset } = useForm();
   const { mutate, isLoading } = useMutation(getRandom, {
     onSuccess: (data) => {
       if (data && lyric) {
@@ -46,7 +50,6 @@ const Guessing = () => {
     answear: string;
     finalAnswear: string;
   }) => {
-    console.log(lyric);
     if (
       lyric &&
       !lyric.quote &&
@@ -61,17 +64,26 @@ const Guessing = () => {
       finalAnswear.toLowerCase() ===
         lyric.song.split('_').join(' ').toLowerCase()
     ) {
-      setLyric(null);
-      alert('success');
+      setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+        navigate('success');
+      }, 3000);
     } else {
       setLyric(null);
       generateRandomLyric({ images, actionSetter: setLyric });
+      reset();
     }
     return;
   };
 
   return (
     <CenterContainer>
+      {alert && (
+        <Alert severity="success">
+          Congratulations! You guessed the song right 🥳
+        </Alert>
+      )}
       {!lyric ? (
         <Button
           variant="contained"
