@@ -14,11 +14,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "./",
     "paths": {
       "api": ["src/api"]
-    },
-    "rootDir": "./"
+    }
   },
   "include": ["./"]
 }

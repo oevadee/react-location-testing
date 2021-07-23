@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
 
-import images from '../../assets';
-import { useApp as useAppContext } from '../../context/appContext';
-import { getRandom, RandomLyric } from '../../api/lyrics';
+import images from '../../../../assets';
+import { useApp as useAppContext } from '../../../../context/appContext';
+import { generateRandomLyric } from '../../../../utils';
+import { getRandom } from '../../../../api/lyrics';
 
 import {
   Alert,
@@ -16,20 +17,24 @@ import {
   CardContent,
   CardMedia,
   Divider,
+  Stack,
   TextField,
   Typography,
+  Skeleton,
+  CircularProgress,
+  LinearProgress,
 } from '@material-ui/core';
-import { CenterContainer } from '../../components/UI';
-import { generateRandomLyric } from '../../utils';
-import { useNavigate } from 'react-location';
+import { useAlert } from '../../../../hooks';
+import { green } from '@material-ui/core/colors';
+import { theme } from '../../../../theme';
 
-const Guessing = () => {
+const GuessingCard = () => {
   const { lyric, setLyric } = useAppContext();
-  const [alert, setAlert] = useState(false);
-  const navigate = useNavigate();
+  const { alert, dispatchAlert } = useAlert();
   const { register, handleSubmit, reset } = useForm();
   const { mutate, isLoading } = useMutation(getRandom, {
     onSuccess: (data) => {
+      console.log(data);
       if (data && lyric) {
         const { quote, song, album } = data;
 
@@ -43,13 +48,12 @@ const Guessing = () => {
     },
   });
 
-  const onSubmit = ({
-    answear,
-    finalAnswear,
-  }: {
+  interface SubmitProps {
     answear: string;
     finalAnswear: string;
-  }) => {
+  }
+
+  const onSubmit = ({ answear, finalAnswear }: SubmitProps) => {
     if (
       lyric &&
       !lyric.quote &&
@@ -64,40 +68,33 @@ const Guessing = () => {
       finalAnswear.toLowerCase() ===
         lyric.song.split('_').join(' ').toLowerCase()
     ) {
-      setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-        navigate('success');
-      }, 3000);
+      dispatchAlert();
     } else {
+      reset();
       setLyric(null);
       generateRandomLyric({ images, actionSetter: setLyric });
-      reset();
     }
     return;
   };
 
+  if (isLoading)
+    <Box sx={{ width: '100%' }}>
+      <LinearProgress />
+    </Box>;
+
   return (
-    <CenterContainer>
-      {alert && (
-        <Alert severity="success">
-          Congratulations! You guessed the song right 🥳
-        </Alert>
-      )}
-      {!lyric ? (
-        <Button
-          variant="contained"
-          onClick={() =>
-            generateRandomLyric({ images, actionSetter: setLyric })
-          }
-          disabled={lyric ? true : false}
+    lyric && (
+      <Stack>
+        {alert && (
+          <Alert variant="outlined" severity="success">
+            Congratulations 🥳
+          </Alert>
+        )}
+        <Card
+          sx={{ maxWidth: 345, width: '100%', height: '8o%', marginTop: 4 }}
         >
-          Start guessing
-        </Button>
-      ) : (
-        <Card sx={{ maxWidth: 345, width: '100%' }}>
           <CardMedia
-            sx={{ height: 140 }}
+            sx={{ height: 140, width: '100%' }}
             image={lyric.imagePath}
             title={lyric.name}
           />
@@ -157,10 +154,9 @@ const Guessing = () => {
             </CardActions>
           </form>
         </Card>
-      )}
-      {/* <DataDisplay /> */}
-    </CenterContainer>
+      </Stack>
+    )
   );
 };
 
-export default Guessing;
+export default GuessingCard;

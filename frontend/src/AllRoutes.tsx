@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-location';
 import { MyLyrics, Profile, Logout, NotFound } from './routes';
 import { Login, Register } from './routes/Auth';
 import { useApp as useAppContext } from './context/appContext';
-import { Guessing } from './routes/App';
+import Guessing from './routes/App/Guessing';
 import Success from './routes/App/Success';
 
 const AllRoutes = () => {
@@ -23,7 +23,6 @@ const AllRoutes = () => {
         <>
           <Route path="*" element={<Navigate to="guesser" />} />
           <Route path="" element={<Guessing />} />
-          <Route path="success" element={<Success />} />
           <Route path="my-lyrics" element={<MyLyrics />} />
           <Route path="profile" element={<Profile />} />
           <Route path="logout" element={<Logout />} />

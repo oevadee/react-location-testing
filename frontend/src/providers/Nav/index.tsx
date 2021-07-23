@@ -95,21 +95,21 @@ const NavProvider = ({ children }: Props) => {
         <Divider />
         <List>
           {navItems[1].map(({ uuid, name, url, icon }, index) => (
-            <>
+            <Box key={uuid}>
               {url === 'logout' ? (
                 <ListItem button onClick={handleLogout}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={name} />
                 </ListItem>
               ) : (
-                <Link to={url} key={uuid} style={styles.link}>
+                <Link to={url} style={styles.link}>
                   <ListItem button>
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={name} />
                   </ListItem>
                 </Link>
               )}
-            </>
+            </Box>
           ))}
         </List>
       </Drawer>
