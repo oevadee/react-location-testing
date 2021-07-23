@@ -12,7 +12,3 @@ export const getRandom = async ({ name }: { name: string }) => {
   );
   return data;
 };
-
-export const scoreLyricPoint = async () => {
-  const { data } = await 
-}
